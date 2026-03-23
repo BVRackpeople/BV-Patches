@@ -116,6 +116,7 @@ class PuzzleGenerator {
 
     for (let h = 1; h <= size; h++) {
       for (let w = 1; w <= size; w++) {
+        if (h * w < 2) continue;        // no 1×1 single cells
         if (h * w > maxArea) continue;
         const r1min = Math.max(0, r - h + 1);
         const r1max = Math.min(size - h, r);
