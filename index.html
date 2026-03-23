@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patches</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="header-left">
+        <h1>Patches</h1>
+        <span class="subtitle">Fill the grid with rectangles</span>
+      </div>
+      <div class="controls">
+        <div class="control-group">
+          <label for="size-select">Size</label>
+          <select id="size-select">
+            <option value="5">5 × 5</option>
+            <option value="6">6 × 6</option>
+            <option value="7" selected>7 × 7</option>
+            <option value="8">8 × 8</option>
+            <option value="9">9 × 9</option>
+          </select>
+        </div>
+        <button id="btn-new" class="btn btn-primary">New Game</button>
+        <button id="btn-reset" class="btn btn-secondary">Reset</button>
+      </div>
+    </header>
+
+    <div id="status-bar">
+      <span id="progress-text">Loading…</span>
+      <span id="timer">0:00</span>
+    </div>
+
+    <main>
+      <div id="board-wrap">
+        <div id="board"></div>
+        <div id="generating" class="hidden">
+          <div class="spinner"></div>
+          <p>Generating puzzle…</p>
+        </div>
+      </div>
+
+      <div id="hint-box">
+        <p><strong>How to play</strong></p>
+        <ul>
+          <li>Click and drag to draw a rectangle.</li>
+          <li>Each rectangle must contain exactly one number.</li>
+          <li>The number equals the area of the rectangle.</li>
+          <li>Cover the entire grid — no gaps, no overlaps.</li>
+          <li>Right-click a placed rectangle to remove it.</li>
+        </ul>
+      </div>
+    </main>
+
+    <div id="win-overlay" class="hidden">
+      <div class="win-card">
+        <div class="win-emoji">🎉</div>
+        <h2>Puzzle Complete!</h2>
+        <p id="win-time"></p>
+        <button id="btn-win-new" class="btn btn-primary">Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/solver.js"></script>
+  <script src="js/generator.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>
