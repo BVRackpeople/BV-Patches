@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<!--
+  Open this file in any browser, then click "Download PNG".
+  Save the file as  apple-touch-icon.png  in this same icons/ folder.
+-->
+<html>
+<head>
+  <title>Generate apple-touch-icon</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 40px; background: #f3f2ef; }
+    canvas { border-radius: 36px; box-shadow: 0 4px 16px rgba(0,0,0,.2); }
+    button { margin-top: 20px; padding: 12px 28px; font-size: 1rem;
+             background: #0a66c2; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h2>Patches — apple-touch-icon generator</h2>
+  <canvas id="c" width="180" height="180"></canvas>
+  <br>
+  <button onclick="download()">Download apple-touch-icon.png</button>
+
+  <script>
+    const canvas = document.getElementById('c');
+    const ctx = canvas.getContext('2d');
+
+    function roundRect(x, y, w, h, r, fill) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.arcTo(x + w, y,     x + w, y + h, r);
+      ctx.arcTo(x + w, y + h, x,     y + h, r);
+      ctx.arcTo(x,     y + h, x,     y,     r);
+      ctx.arcTo(x,     y,     x + w, y,     r);
+      ctx.closePath();
+      ctx.fillStyle = fill;
+      ctx.fill();
+    }
+
+    // Background
+    roundRect(0, 0, 180, 180, 36, '#0a66c2');
+
+    // Patches (same layout as icon.svg)
+    roundRect(24,  24,  78, 44, 6, '#caffbf');
+    roundRect(114, 24,  42, 78, 6, '#ffd6a5');
+    roundRect(24,  80,  44, 44, 6, '#bdb2ff');
+    roundRect(80,  80,  34, 44, 6, '#9bf6ff');
+    roundRect(24,  136, 132, 20, 6, '#ffc6ff');
+
+    function download() {
+      const a = document.createElement('a');
+      a.download = 'apple-touch-icon.png';
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    }
+  </script>
+</body>
+</html>

@@ -29,6 +29,7 @@ let colorMap = [];     // colorMap[i] = color index for clue i
 
 let dragStart = null;  // { row, col } | null
 let isDragging = false;
+let longPressTimer = null; // iOS long-press → remove patch
 
 let timerInterval = null;
 let startTime = null;
@@ -386,8 +387,25 @@ function onTouchStart(e) {
   const coords = touchCoords(e);
   const cell = document.elementFromPoint(coords.clientX, coords.clientY)?.closest('.cell');
   if (!cell) return;
-  dragStart  = { row: parseInt(cell.dataset.row), col: parseInt(cell.dataset.col) };
+  const row = parseInt(cell.dataset.row), col = parseInt(cell.dataset.col);
+  dragStart  = { row, col };
   isDragging = true;
+
+  // Long-press (500 ms) removes the patch under the finger — replaces right-click on iOS
+  longPressTimer = setTimeout(() => {
+    longPressTimer = null;
+    // Only fire if the user hasn't dragged to another cell
+    const stillOnStart = dragStart && dragStart.row === row && dragStart.col === col;
+    if (stillOnStart && occupiedBy(row, col) !== null) {
+      isDragging = false;
+      dragStart  = null;
+      clearPreview();
+      removePatch(row, col);
+      updateProgress();
+      // Vibrate briefly as haptic feedback (supported on Android; no-op on iOS)
+      if (navigator.vibrate) navigator.vibrate(30);
+    }
+  }, 500);
 }
 function onTouchMove(e) {
   e.preventDefault();
@@ -396,10 +414,19 @@ function onTouchMove(e) {
   const cell = document.elementFromPoint(coords.clientX, coords.clientY)?.closest('.cell');
   if (!cell) return;
   const row = parseInt(cell.dataset.row), col = parseInt(cell.dataset.col);
+
+  // Cancel long-press if the finger moved to a different cell
+  if (longPressTimer && (row !== dragStart.row || col !== dragStart.col)) {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
+
   showPreview(dragStart.row, dragStart.col, row, col,
               isValidDrag(dragStart.row, dragStart.col, row, col));
 }
 function onTouchEnd(e) {
+  clearTimeout(longPressTimer);
+  longPressTimer = null;
   if (!isDragging || !dragStart) return;
   e.preventDefault();
   isDragging = false;

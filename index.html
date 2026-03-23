@@ -2,8 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Patches</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#0a66c2">
+
+  <!-- iOS home screen app -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Patches">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -69,7 +80,7 @@
         <ul>
           <li>Click &amp; drag to draw a rectangle.</li>
           <li>No gaps, no overlaps.</li>
-          <li>Right-click to remove a placed patch.</li>
+          <li>Right-click or <strong>long-press</strong> to remove a patch.</li>
         </ul>
       </div>
     </main>
@@ -87,5 +98,10 @@
   <script src="js/solver.js"></script>
   <script src="js/generator.js"></script>
   <script src="js/game.js"></script>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js');
+    }
+  </script>
 </body>
 </html>

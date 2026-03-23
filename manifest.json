@@ -1,0 +1,23 @@
+{
+  "name": "Patches",
+  "short_name": "Patches",
+  "description": "Fill the grid with rectangles — a Shikaku-style logic puzzle",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f3f2ef",
+  "theme_color": "#0a66c2",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icons/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

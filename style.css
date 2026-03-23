@@ -6,6 +6,12 @@ body {
   background: #f3f2ef;
   min-height: 100vh;
   color: #1d1d1d;
+  /* PWA: prevent pull-to-refresh and bounce scrolling */
+  overscroll-behavior: none;
+  /* iOS safe areas (notch, home bar) */
+  padding-left:   env(safe-area-inset-left);
+  padding-right:  env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* ── App shell ───────────────────────────────────────────── */
