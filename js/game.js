@@ -75,9 +75,11 @@ function startNewGame() {
   generatingEl.classList.remove('hidden');
   boardEl.style.visibility = 'hidden';
 
-  setTimeout(() => {
-    const gen = new PuzzleGenerator(size);
-    puzzle = gen.generate();
+  // Run generation in a Web Worker so the UI stays responsive
+  const worker = new Worker('js/worker.js');
+  worker.onmessage = function (e) {
+    worker.terminate();
+    puzzle = e.data;
 
     placed   = new Array(puzzle.clues.length).fill(null);
     colorMap = puzzle.clues.map((_, i) => i % PATCH_COLORS.length);
@@ -88,7 +90,8 @@ function startNewGame() {
     boardEl.style.visibility = 'visible';
     updateProgress();
     startTimer();
-  }, 20);
+  };
+  worker.postMessage({ size });
 }
 
 function shuffleColorMap() {
