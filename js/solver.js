@@ -1,25 +1,37 @@
 /**
  * Shikaku solver: constraint propagation + backtracking.
  *
- * A Shikaku puzzle is a grid partitioned into rectangles.
- * Each clue { row, col, value } sits inside exactly one rectangle
- * whose area equals `value`. No overlaps, no gaps.
+ * Each clue: { row, col, value, shape }
+ *   shape: 'square' | 'tall' | 'wide' | 'any'
+ *     square → h === w
+ *     tall   → h > w
+ *     wide   → w > h
+ *     any    → no shape constraint
  */
 class ShikakuSolver {
   /**
-   * @param {number} size   - Grid dimension (size × size)
-   * @param {Array<{row:number,col:number,value:number}>} clues
+   * @param {number} size
+   * @param {Array<{row:number,col:number,value:number,shape:string}>} clues
    */
   constructor(size, clues) {
     this.size = size;
     this.clues = clues;
   }
 
+  /** Return true if rectangle (h×w) satisfies the shape constraint */
+  static matchesShape(h, w, shape) {
+    if (shape === 'square') return h === w;
+    if (shape === 'tall')   return h > w;
+    if (shape === 'wide')   return w > h;
+    return true; // 'any'
+  }
+
   /**
-   * Enumerate every axis-aligned rectangle that:
+   * Enumerate every rectangle that:
    *  - Stays within grid bounds
    *  - Contains clue cell (cr, cc)
-   *  - Has area equal to clue.value
+   *  - Has area equal to clue.value  (if value is set)
+   *  - Satisfies clue.shape constraint
    *  - Does NOT contain any other clue cell
    *
    * @param {number} ci  - Clue index
@@ -28,7 +40,7 @@ class ShikakuSolver {
   getCandidates(ci) {
     const { size, clues } = this;
     const clue = clues[ci];
-    const { row: cr, col: cc, value: area } = clue;
+    const { row: cr, col: cc, value: area, shape } = clue;
     const results = [];
 
     // Build a fast lookup of other clue positions
@@ -37,11 +49,12 @@ class ShikakuSolver {
       if (i !== ci) otherClues.add(clues[i].row * size + clues[i].col);
     }
 
-    // Try every rectangle of the correct area
+    // Try every rectangle of the correct area that matches shape
     for (let h = 1; h <= size; h++) {
       if (area % h !== 0) continue;
       const w = area / h;
       if (w > size) continue;
+      if (!ShikakuSolver.matchesShape(h, w, shape)) continue;
 
       // All top-left positions where this h×w rect contains (cr, cc)
       const r1min = Math.max(0, cr - h + 1);

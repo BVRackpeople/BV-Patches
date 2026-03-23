@@ -166,8 +166,13 @@ class PuzzleGenerator {
   // ─── Clue Placement ────────────────────────────────────────────────────────
 
   /**
-   * For each rectangle, pick one random cell within it as the clue cell.
-   * The clue value = area of the rectangle.
+   * For each rectangle, pick one random cell as the clue.
+   * The clue carries:
+   *   value — area of the rectangle
+   *   shape — 'square' | 'tall' | 'wide' | 'any'
+   *
+   * Shape is derived from the actual rectangle dimensions.
+   * ~15% of the time we assign 'any' instead (adds difficulty variety).
    */
   _placeClues(rects) {
     return rects.map(rect => {
@@ -176,8 +181,22 @@ class PuzzleGenerator {
         for (let c = rect.c1; c <= rect.c2; c++)
           cells.push({ row: r, col: c });
       const pick = cells[Math.floor(Math.random() * cells.length)];
-      const area = (rect.r2 - rect.r1 + 1) * (rect.c2 - rect.c1 + 1);
-      return { row: pick.row, col: pick.col, value: area };
+      const h    = rect.r2 - rect.r1 + 1;
+      const w    = rect.c2 - rect.c1 + 1;
+      const area = h * w;
+
+      let shape;
+      if (Math.random() < 0.15) {
+        shape = 'any';
+      } else if (h === w) {
+        shape = 'square';
+      } else if (h > w) {
+        shape = 'tall';
+      } else {
+        shape = 'wide';
+      }
+
+      return { row: pick.row, col: pick.col, value: area, shape };
     });
   }
 }
