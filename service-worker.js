@@ -1,4 +1,4 @@
-const CACHE = 'patches-v1';
+const CACHE = 'patches-v2';
 
 const ASSETS = [
   './',

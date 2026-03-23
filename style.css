@@ -112,12 +112,13 @@ main {
 /* ── Board wrap ──────────────────────────────────────────── */
 #board-wrap {
   position: relative;
-  flex-shrink: 0;
+  width: 100%;
 }
 
 /* ── Board grid ──────────────────────────────────────────── */
 #board {
-  display: inline-grid;
+  display: grid;  /* fills #board-wrap width */
+  width: 100%;
   gap: 0;
   border: 2px solid #555;
   border-radius: 4px;
@@ -128,8 +129,8 @@ main {
 
 /* ── Cells ───────────────────────────────────────────────── */
 .cell {
-  width:  52px;
-  height: 52px;
+  aspect-ratio: 1;   /* always square, width driven by grid columns */
+  min-width: 0;
   border: 1px solid #d0d0d0;
   position: relative;
   cursor: crosshair;
@@ -286,8 +287,6 @@ main {
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 600px) {
-  .cell { width: 40px; height: 40px; }
-  .cell .clue { font-size: 0.85rem; }
   #hint-box { max-width: 100%; }
   main { flex-direction: column; }
 }
