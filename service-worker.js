@@ -1,4 +1,4 @@
-const CACHE = 'patches-v3';
+const CACHE = 'patches-v4';
 
 const ASSETS = [
   './',
@@ -9,6 +9,7 @@ const ASSETS = [
   './js/generator.js',
   './js/game.js',
   './js/worker.js',
+  './js/levels.js',
   './icons/icon.svg',
   './icons/apple-touch-icon.png',
 ];

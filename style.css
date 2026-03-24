@@ -280,7 +280,15 @@ main {
 }
 .win-emoji { font-size: 3rem; margin-bottom: 12px; }
 .win-card h2 { font-size: 1.6rem; margin-bottom: 8px; color: #0a66c2; }
-.win-card p  { color: #555; margin-bottom: 24px; font-size: 1rem; }
+.win-card p  { color: #555; margin-bottom: 20px; font-size: 1rem; }
+
+/* ── Win buttons ─────────────────────────────────────────── */
+.win-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
 
 /* ── Utility ─────────────────────────────────────────────── */
 .hidden { display: none !important; }
@@ -289,4 +297,251 @@ main {
 @media (max-width: 600px) {
   #hint-box { max-width: 100%; }
   main { flex-direction: column; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCREEN NAVIGATION
+   ═══════════════════════════════════════════════════════════ */
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* ── Back button (shared across sub-screens) ─────────────── */
+.btn-back {
+  background: none;
+  border: none;
+  color: #0a66c2;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 6px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+.btn-back:hover { background: #f0f4ff; }
+.btn-back:active { background: #e0ecff; }
+
+/* ── Sub-header (back + title row) ──────────────────────── */
+.sub-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-top: 4px;
+}
+.sub-header h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #1d1d1d;
+}
+
+/* ── Screen inner wrapper ────────────────────────────────── */
+.screen-inner {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+/* ── HOME SCREEN ─────────────────────────────────────────── */
+.home-content {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 48px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+}
+.home-logo h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  color: #0a66c2;
+  text-align: center;
+  letter-spacing: -1px;
+}
+.home-logo .subtitle {
+  text-align: center;
+  color: #777;
+  font-size: 0.9rem;
+  margin-top: 4px;
+  display: block;
+}
+.menu-nav {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.menu-btn {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 18px 20px;
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  border-radius: 14px;
+  cursor: pointer;
+  text-align: left;
+  transition: box-shadow 0.15s, transform 0.1s;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.menu-btn:hover  { box-shadow: 0 4px 14px rgba(0,0,0,.12); border-color: #c8d8f0; }
+.menu-btn:active { transform: scale(0.98); }
+.menu-btn-icon   { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+.menu-btn-text   { display: flex; flex-direction: column; gap: 3px; }
+.menu-btn-label  { font-size: 1.05rem; font-weight: 700; color: #1d1d1d; }
+.menu-btn-sub    { font-size: 0.8rem; color: #777; }
+
+/* ── DIFFICULTY PICKER ───────────────────────────────────── */
+.diff-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.diff-btn {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e4e4e4;
+  border-radius: 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: box-shadow 0.15s, transform 0.1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.diff-btn:hover  { box-shadow: 0 3px 10px rgba(0,0,0,.12); }
+.diff-btn:active { transform: scale(0.98); }
+.diff-label       { font-size: 1.1rem; font-weight: 700; min-width: 76px; }
+.diff-grid-size   { font-size: 0.85rem; color: #777; flex: 1; }
+.diff-progress    { font-size: 0.8rem; color: #999; font-variant-numeric: tabular-nums; }
+
+/* ── LEVEL SELECT ────────────────────────────────────────── */
+.levels-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+}
+.level-btn {
+  aspect-ratio: 1;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #444;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1px;
+  transition: background 0.1s, transform 0.1s;
+  line-height: 1;
+  padding: 2px;
+}
+.level-btn:hover  { background: #f0f4ff; border-color: #0a66c2; color: #0a66c2; }
+.level-btn:active { transform: scale(0.93); }
+.level-btn.done   { background: #e8f5e9; border-color: #4caf50; color: #2e7d32; }
+.lvl-num  { font-size: 0.68rem; }
+.lvl-check { font-size: 0.62rem; color: #4caf50; }
+
+/* ── GAME SCREEN HEADER ──────────────────────────────────── */
+#game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  background: #fff;
+  border-radius: 12px;
+  padding: 12px 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.08);
+  margin-bottom: 10px;
+}
+#game-header .header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+.game-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #0a66c2;
+  line-height: 1.2;
+}
+.game-subtitle {
+  font-size: 0.75rem;
+  color: #777;
+}
+
+/* ── STATISTICS SCREEN ───────────────────────────────────── */
+.stats-section {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 12px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+.stats-section h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1d1d1d;
+  margin-bottom: 14px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+.stat-card {
+  background: #f7f8fa;
+  border-radius: 8px;
+  padding: 14px 10px;
+  text-align: center;
+}
+.stat-val {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #0a66c2;
+  font-variant-numeric: tabular-nums;
+}
+.stat-lbl {
+  font-size: 0.72rem;
+  color: #777;
+  margin-top: 3px;
+}
+.stats-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+.stats-table th {
+  text-align: left;
+  color: #999;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-bottom: 1px solid #eee;
+}
+.stats-table td {
+  padding: 9px 8px;
+  border-bottom: 1px solid #f0f0f0;
+  color: #333;
+  font-variant-numeric: tabular-nums;
+}
+.stats-reset { text-align: center; }
+
+/* ── Responsive for new screens ──────────────────────────── */
+@media (max-width: 400px) {
+  .levels-grid { grid-template-columns: repeat(10, 1fr); gap: 4px; }
+  .level-btn   { font-size: 0.6rem; }
+  .stats-grid  { grid-template-columns: 1fr 1fr; }
 }

@@ -19,84 +19,155 @@
 </head>
 <body>
   <div class="app">
-    <header>
-      <div class="header-left">
-        <h1>Patches</h1>
-        <span class="subtitle">Fill the grid with rectangles</span>
-      </div>
-      <div class="controls">
-        <div class="control-group">
-          <label for="size-select">Size</label>
-          <select id="size-select">
-            <option value="5">5 × 5</option>
-            <option value="6">6 × 6</option>
-            <option value="7" selected>7 × 7</option>
-            <option value="8">8 × 8</option>
-            <option value="9">9 × 9</option>
-          </select>
+
+    <!-- ═══ HOME SCREEN ════════════════════════════════════════════ -->
+    <section id="screen-home" class="screen active">
+      <div class="home-content">
+        <div class="home-logo">
+          <h1>Patches</h1>
+          <p class="subtitle">Fill the grid with rectangles</p>
         </div>
-        <button id="btn-new" class="btn btn-primary">New Game</button>
-        <button id="btn-reset" class="btn btn-secondary">Reset</button>
+        <nav class="menu-nav">
+          <button class="menu-btn" id="btn-progress-mode">
+            <span class="menu-btn-icon">📋</span>
+            <span class="menu-btn-text">
+              <span class="menu-btn-label">Progress Mode</span>
+              <span class="menu-btn-sub">Play 100 levels per difficulty</span>
+            </span>
+          </button>
+          <button class="menu-btn" id="btn-freeplay-mode">
+            <span class="menu-btn-icon">🎲</span>
+            <span class="menu-btn-text">
+              <span class="menu-btn-label">Free Play</span>
+              <span class="menu-btn-sub">Generate endless random puzzles</span>
+            </span>
+          </button>
+          <button class="menu-btn" id="btn-stats">
+            <span class="menu-btn-icon">📊</span>
+            <span class="menu-btn-text">
+              <span class="menu-btn-label">Statistics</span>
+              <span class="menu-btn-sub">View your solve history &amp; records</span>
+            </span>
+          </button>
+        </nav>
       </div>
-    </header>
+    </section>
 
-    <div id="status-bar">
-      <span id="progress-text">Loading…</span>
-      <span id="timer">0:00</span>
-    </div>
-
-    <main>
-      <div id="board-wrap">
-        <div id="board"></div>
-        <div id="generating" class="hidden">
-          <div class="spinner"></div>
-          <p>Generating puzzle…</p>
+    <!-- ═══ DIFFICULTY PICKER ══════════════════════════════════════ -->
+    <section id="screen-difficulty" class="screen">
+      <div class="screen-inner">
+        <div class="sub-header">
+          <button class="btn-back" id="diff-back">← Back</button>
+          <h2 id="diff-title">Choose Difficulty</h2>
+        </div>
+        <div class="diff-grid" id="diff-grid">
+          <!-- filled by JS -->
         </div>
       </div>
+    </section>
 
-      <div id="hint-box">
-        <p><strong>How to play</strong></p>
-        <p class="hint-sub">Complete each shape to fill the grid</p>
-        <div class="shape-legend">
-          <div class="legend-row">
-            <div class="shape-icon shape-square"></div>
-            <span>Square</span>
-          </div>
-          <div class="legend-row">
-            <div class="shape-icon shape-tall"></div>
-            <span>Tall rectangle</span>
-          </div>
-          <div class="legend-row">
-            <div class="shape-icon shape-wide"></div>
-            <span>Wide rectangle</span>
-          </div>
-          <div class="legend-row">
-            <div class="shape-icon shape-any"></div>
-            <span>Any of the above</span>
+    <!-- ═══ LEVEL SELECT ═══════════════════════════════════════════ -->
+    <section id="screen-levels" class="screen">
+      <div class="screen-inner">
+        <div class="sub-header">
+          <button class="btn-back" id="levels-back">← Back</button>
+          <h2 id="levels-title">Easy — Levels</h2>
+        </div>
+        <div class="levels-grid" id="levels-grid"></div>
+      </div>
+    </section>
+
+    <!-- ═══ GAME SCREEN ════════════════════════════════════════════ -->
+    <section id="screen-game" class="screen">
+      <header id="game-header">
+        <div class="header-left">
+          <button class="btn-back" id="btn-back-game">← Back</button>
+          <div class="header-title-group">
+            <span class="game-title">Patches</span>
+            <span class="game-subtitle" id="game-subtitle"></span>
           </div>
         </div>
-        <p class="hint-note">If a shape has a number, it must be that size.</p>
-        <hr class="hint-divider">
-        <ul>
-          <li>Click &amp; drag to draw a rectangle.</li>
-          <li>No gaps, no overlaps.</li>
-          <li>Right-click or <strong>long-press</strong> to remove a patch.</li>
-        </ul>
-      </div>
-    </main>
+        <div class="controls">
+          <button id="btn-new" class="btn btn-primary hidden">New Puzzle</button>
+          <button id="btn-reset" class="btn btn-secondary">Reset</button>
+        </div>
+      </header>
 
-    <div id="win-overlay" class="hidden">
-      <div class="win-card">
-        <div class="win-emoji">🎉</div>
-        <h2>Puzzle Complete!</h2>
-        <p id="win-time"></p>
-        <button id="btn-win-new" class="btn btn-primary">Play Again</button>
+      <div id="status-bar">
+        <span id="progress-text">Loading…</span>
+        <span id="timer">0:00</span>
       </div>
-    </div>
-  </div>
+
+      <main>
+        <div id="board-wrap">
+          <div id="board"></div>
+          <div id="generating" class="hidden">
+            <div class="spinner"></div>
+            <p>Generating puzzle…</p>
+          </div>
+        </div>
+
+        <div id="hint-box">
+          <p><strong>How to play</strong></p>
+          <p class="hint-sub">Complete each shape to fill the grid</p>
+          <div class="shape-legend">
+            <div class="legend-row">
+              <div class="shape-icon shape-square"></div>
+              <span>Square</span>
+            </div>
+            <div class="legend-row">
+              <div class="shape-icon shape-tall"></div>
+              <span>Tall rectangle</span>
+            </div>
+            <div class="legend-row">
+              <div class="shape-icon shape-wide"></div>
+              <span>Wide rectangle</span>
+            </div>
+            <div class="legend-row">
+              <div class="shape-icon shape-any"></div>
+              <span>Any of the above</span>
+            </div>
+          </div>
+          <p class="hint-note">If a shape has a number, it must be that size.</p>
+          <hr class="hint-divider">
+          <ul>
+            <li>Click &amp; drag to draw a rectangle.</li>
+            <li>No gaps, no overlaps.</li>
+            <li>Right-click or <strong>long-press</strong> to remove a patch.</li>
+          </ul>
+        </div>
+      </main>
+
+      <div id="win-overlay" class="hidden">
+        <div class="win-card">
+          <div class="win-emoji">🎉</div>
+          <h2>Puzzle Complete!</h2>
+          <p id="win-time"></p>
+          <div class="win-buttons">
+            <button id="btn-win-next" class="btn btn-primary hidden">Next Level</button>
+            <button id="btn-win-new"  class="btn btn-primary hidden">New Puzzle</button>
+            <button id="btn-win-back" class="btn btn-secondary">Back</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ STATS SCREEN ══════════════════════════════════════════ -->
+    <section id="screen-stats" class="screen">
+      <div class="screen-inner">
+        <div class="sub-header">
+          <button class="btn-back" id="stats-back">← Back</button>
+          <h2>Statistics</h2>
+        </div>
+        <div id="stats-content"></div>
+      </div>
+    </section>
+
+  </div><!-- .app -->
 
   <script src="js/solver.js"></script>
   <script src="js/generator.js"></script>
+  <script src="js/levels.js"></script>
   <script src="js/game.js"></script>
   <script>
     if ('serviceWorker' in navigator) {
