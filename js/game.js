@@ -85,7 +85,8 @@ function goToDifficulty(mode) {
   const progress = loadProgress();
   grid.innerHTML = '';
 
-  for (const size of [5, 6, 7, 8, 9]) {
+  const sizes = mode === 'progress' ? [5] : [5, 6, 7, 8, 9];
+  for (const size of sizes) {
     const d   = DIFF[size];
     const btn = document.createElement('button');
     btn.className = 'diff-btn';
