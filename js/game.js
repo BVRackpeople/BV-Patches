@@ -266,17 +266,27 @@ function renderStats() {
     ? `${totalH}h ${totalM}m`
     : `${totalM}m ${String(totalSecs % 60).padStart(2,'0')}s`;
 
+  const totalCount = stats.total || 0;
+  const avgSecs = totalCount > 0 ? Math.round(totalSecs / totalCount) : null;
+  const avgTimeStr = avgSecs !== null
+    ? `${Math.floor(avgSecs / 60)}:${String(avgSecs % 60).padStart(2, '0')}`
+    : '—';
+
   let html = `
     <div class="stats-section">
       <h3>Overall</h3>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-val">${stats.total || 0}</div>
+          <div class="stat-val">${totalCount}</div>
           <div class="stat-lbl">Puzzles solved</div>
         </div>
         <div class="stat-card">
           <div class="stat-val">${totalTimeStr}</div>
           <div class="stat-lbl">Total play time</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val">${avgTimeStr}</div>
+          <div class="stat-lbl">Avg time</div>
         </div>
         <div class="stat-card">
           <div class="stat-val">${stats.streak || 0}</div>
@@ -292,7 +302,7 @@ function renderStats() {
     <div class="stats-section">
       <h3>Progress Mode</h3>
       <table class="stats-table">
-        <thead><tr><th>Difficulty</th><th>Completed</th><th>Best time</th></tr></thead>
+        <thead><tr><th>Difficulty</th><th>Completed</th><th>Best time</th><th>Avg time</th></tr></thead>
         <tbody>
   `;
 
@@ -305,10 +315,15 @@ function renderStats() {
     const bestStr = best !== null
       ? `${Math.floor(best / 60)}:${String(best % 60).padStart(2, '0')}`
       : '—';
+    const avgT = times.length ? Math.round(times.reduce((a, b) => a + b, 0) / times.length) : null;
+    const avgTStr = avgT !== null
+      ? `${Math.floor(avgT / 60)}:${String(avgT % 60).padStart(2, '0')}`
+      : '—';
     html += `<tr>
       <td><span style="color:${d.color}">●</span> ${d.label}</td>
       <td>${done} / 100</td>
       <td>${bestStr}</td>
+      <td>${avgTStr}</td>
     </tr>`;
   }
 
@@ -317,7 +332,7 @@ function renderStats() {
     <div class="stats-section">
       <h3>Free Play</h3>
       <table class="stats-table">
-        <thead><tr><th>Difficulty</th><th>Solved</th><th>Best time</th></tr></thead>
+        <thead><tr><th>Difficulty</th><th>Solved</th><th>Best time</th><th>Avg time</th></tr></thead>
         <tbody>
   `;
 
@@ -328,10 +343,17 @@ function renderStats() {
     const best  = fp.best != null
       ? `${Math.floor(fp.best / 60)}:${String(fp.best % 60).padStart(2, '0')}`
       : '—';
+    const fpAvg = (count > 0 && fp.totalTime != null)
+      ? Math.round(fp.totalTime / count)
+      : null;
+    const fpAvgStr = fpAvg !== null
+      ? `${Math.floor(fpAvg / 60)}:${String(fpAvg % 60).padStart(2, '0')}`
+      : '—';
     html += `<tr>
       <td><span style="color:${d.color}">●</span> ${d.label}</td>
       <td>${count}</td>
       <td>${best}</td>
+      <td>${fpAvgStr}</td>
     </tr>`;
   }
 
@@ -397,6 +419,7 @@ function saveStats(size, timeSeconds) {
     if (s.freeplay[size].best === null || timeSeconds < s.freeplay[size].best) {
       s.freeplay[size].best = timeSeconds;
     }
+    s.freeplay[size].totalTime = (s.freeplay[size].totalTime || 0) + timeSeconds;
   }
 
   localStorage.setItem(STORAGE_STATS, JSON.stringify(s));
