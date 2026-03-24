@@ -29,11 +29,9 @@ const GENERATOR_PATH = path.resolve(__dirname, '../js/generator.js');
 
 // Counts and timeout per size
 const CONFIG = {
-  5: { count: 100, timeout: 5000  },
-  6: { count: 100, timeout: 5000  },
-  7: { count: 100, timeout: 8000  },
-  8: { count: 100, timeout: 15000 },
-  9: { count: 100, timeout: 60000 },
+  5: { count: 100, timeout: 5000 },
+  6: { count: 100, timeout: 5000 },
+  7: { count: 100, timeout: 8000 },
 };
 
 function generateOne(size, timeoutMs) {
@@ -68,7 +66,7 @@ async function main() {
   const result  = {};
   let timeouts  = 0;
 
-  for (const size of [5, 6, 7, 8, 9]) {
+  for (const size of [5, 6, 7]) {
     const { count, timeout: timeoutMs } = CONFIG[size];
     result[size] = [];
     process.stdout.write(`${size}×${size}  0/${count}`);
